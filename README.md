@@ -1,39 +1,42 @@
 # Student Depression Predictor
 
-An interactive Streamlit web application powered by a tuned `DecisionTreeClassifier` trained on the Student Depression Dataset to estimate depression risk from student demographic, academic, and lifestyle inputs.
+An interactive Streamlit web application powered by a tuned `DecisionTreeClassifier` trained on the Student Depression Dataset to predict depression risk from student demographic, academic, and lifestyle inputs.
 
-## Project Overview
+**Live App:** [https://student-depression-classifier-at7jrrs5gbggzm7j7nm96g.streamlit.app/](https://student-depression-classifier-at7jrrs5gbggzm7j7nm96g.streamlit.app/)
 
-This project takes an end-to-end machine learning workflow from notebook experimentation (`Pipeline.ipynb`) to a lightweight interactive web app (`app.py`) ready for Streamlit Community Cloud deployment.
+## Overview
 
-- **Model:** Tuned `DecisionTreeClassifier` (`depression_dt_model.pkl`) achieving roughly `0.998` F1-score on evaluation.
-- **Preprocessing:** Manual ordinal/binary mapping for selected categorical features (`Gender`, `Living_style`, `friend_circle`, `Family_background`), one-hot encoding (`pd.get_dummies`) for remaining categorical columns, and feature alignment (`model_columns.pkl` / `feature_names_in_`).
-- **Interface:** Clean Streamlit form collecting 12 student attributes and displaying risk prediction alongside estimated probability.
+This project moves an end-to-end machine learning workflow from a Jupyter/Colab notebook (`Pipeline.ipynb`) into a single-file Streamlit web app (`app.py`) deployed on Streamlit Community Cloud.
 
-## Input Features
+- **Model:** Tuned `DecisionTreeClassifier` saved as `depression_dt_model.pkl` (~0.998 F1-score during evaluation).
+- **Preprocessing & Alignment:** Maps binary and ordinal features (`Gender`, `Living_style`, `friend_circle`, `Family_background`), applies one-hot encoding (`pd.get_dummies`) to categorical features, and aligns columns using `model_columns.pkl` (with fallback to `feature_names_in_` or expected feature columns).
+- **Web Interface:** Interactive form built with Streamlit (`st.form`, `st.selectbox`, `st.number_input`) displaying the predicted class and estimated probability when `predict_proba` is available.
 
-| Feature | Type | Examples / Options |
+## Features
+
+| Feature | Input Type | Values / Range |
 | :--- | :--- | :--- |
-| `Gender` | Categorical | `Female`, `Male` |
-| `Age` | Numeric | `15` – `40` |
-| `Family_background` | Categorical | `Lower Middle class`, `Middle class`, `Rich class` |
-| `Relationship_status` | Categorical | `Single`, `In a Relationship`, `Complicated` |
-| `Marital_status` | Categorical | `Unmarried`, `Married`, `Divorced` |
-| `Living_style` | Categorical | `Family`, `Bachelor` |
-| `Current_semester` | Numeric | `0` – `16` |
-| `CGPA` | Numeric | `0.00` – `4.00` |
-| `friend_circle` | Categorical | `Yes`, `No` |
-| `Health_condition` | Categorical | `Good`, `Normal`, `Abnormal`, `Critical` |
-| `Cost_without_study` | Numeric | Monthly living cost excluding study expenses |
-| `Home_division` | Categorical | `Dhaka`, `Chittagong`, `Rajshahi`, `Khulna`, `Barisal`, `Sylhet`, `Rangpur`, `Mymensingh` |
+| `Gender` | Selectbox | `Female`, `Male` |
+| `Age` | Number | `15` – `40` |
+| `Family_background` | Selectbox | `Lower Middle class`, `Middle class`, `Rich class` |
+| `Relationship_status` | Selectbox | `Single`, `In a Relationship`, `Complicated` |
+| `Marital_status` | Selectbox | `Unmarried`, `Married`, `Divorced` |
+| `Living_style` | Selectbox | `Family`, `Bachelor` |
+| `Current_semester` | Number | `0` – `16` |
+| `CGPA` | Number | `0.00` – `4.00` |
+| `friend_circle` | Selectbox | `Yes`, `No` |
+| `Health_condition` | Selectbox | `Good`, `Normal`, `Abnormal`, `Critical` |
+| `Cost_without_study` | Number | `0` – `100000` (monthly cost excluding study expenses) |
+| `Home_division` | Selectbox | `Dhaka`, `Chittagong`, `Rajshahi`, `Khulna`, `Barisal`, `Sylhet`, `Rangpur`, `Mymensingh` |
 
-## Repository Structure
+## Project Structure
 
 ```text
 .
-├── app.py                          # Streamlit web application
-├── requirements.txt                # Python dependencies
-├── depression_dt_model.pkl         # Trained Decision Tree model
-├── model_columns.pkl               # Saved feature column order (optional fallback)
-├── Pipeline.ipynb                  # Training, evaluation, and pipeline notebook
-└── Student_Depression_Dataset.csv  # Source dataset
+├── app.py                          # Streamlit application entry point
+├── requirements.txt                # Python package dependencies
+├── depression_dt_model.pkl         # Serialized Decision Tree classifier
+├── model_columns.pkl               # Saved training feature column order
+├── Pipeline.ipynb                  # EDA, preprocessing, model training, and evaluation notebook
+├── Student_Depression_Dataset.csv  # Dataset used for training and evaluation
+└── README.md                       # Project documentation
